@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200&display=swap');
+
+
+
+.mine_image {
+    background-image: url('./images/bg_cyan2.jpg');
+    background-repeat: no-repeat;
+    background-size:contain;
+}
+
+progress {
+    border-radius: 2px; 
+    height: 10px;
+  }
+  progress::-webkit-progress-bar {
+    background-color: gray;
+    border-radius: 2px;
+  }
+  progress::-webkit-progress-value {
+    background-color: orange;
+    border-radius: 2px;
+  }
+
+  .text_outline {
+    color: orange;
+    text-shadow:
+     -1px -1px 0 #757373,  
+      1px -1px 0 #767474, 
+      -1px 1px 0 #6e6d6d, 
+       1px 1px 0 #7c7b7b, 
+  }
+
+  .button_bg {
+    background: rgb(253,173,2);
+background: linear-gradient(0deg, rgba(253,173,2,1) 0%, rgba(249,146,0,1) 35%, rgba(249,146,0,1) 100%, rgba(249,125,3,1) 100%);
+  }
+
+  .tt {
+    color: #999999;
+    font-size: 12px;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    
+  }
+
+  .tl {
+    padding: 14px 15px 10px;
+    color: #e71111;
+    font-size: 13px;
+    position: relative;
+  }
+
+  .tp {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    outline: 0;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 0;
+    text-align: left;
+    font-size: 18px;
+    background-color: rgb(245, 242, 242);
+    margin-top: 18px;
+    padding-bottom:20px;
+    position: relative;
+    z-index: 2;
+    color: #928e8e;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border:1px solid rgb(171, 171, 171)
+  }
+
+  .center-box {
+    grid-column: 1 / span 2;
+    grid-row: 3 / span 1;
+    justify-self: center;
+    align-self: center;
+
+  }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+}
+  
+.bonus_image {
+  background-image: url('../src/images/dj/bonus_image.jpg');
+  background-repeat: no-repeat;
+  background-size:100vw 100vh;
+  
+}
