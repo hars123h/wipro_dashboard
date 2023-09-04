@@ -68,7 +68,7 @@ function App() {
       <div className="app relative ">
         <Routes>
           <Route path="/" element={<Fallback />} />
-          {/* <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/register/invite_code/:invite_code" element={<RegisterInvite />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot" element={<ForgotPassword />} />
@@ -77,9 +77,9 @@ function App() {
           <Route path="/company" element={<Company />} />
           <Route path="/team" element={<Team />} />
           <Route path="/mine" element={<Mine />} />
-          <Route path="/recharge" element={<Recharge />} /> */}
+          <Route path="/recharge" element={<Recharge />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="/invite" element={<Invite />} />
+          <Route path="/invite" element={<Invite />} />
           <Route path="/record" element={<Record />} />
           <Route path="/project" element={<Project />} />
           <Route path="/withdrawal" element={<Withdrawal />} />
@@ -88,9 +88,9 @@ function App() {
           <Route path="/user_feedback" element={<ClientFeedback />} />
           <Route path="/change_login_password" element={< ChangeLoginPassword />} />
           <Route path="/change_withdrawal_password" element={< ChangeWithdrawalPassword />} />
-          <Route path="/recharge_window/:recharge_value" element={<RechargeWindow />} /> */}
-          {/* <Route path="/recharge_approval" element={<Approval />} /> */}
-          {/* <Route path="/withdrawal_approval" element={<WithdrawalApproval />} /> */}
+          <Route path="/recharge_window/:recharge_value" element={<RechargeWindow />} />
+          <Route path="/recharge_approval" element={<Approval />} />
+          <Route path="/withdrawal_approval" element={<WithdrawalApproval />} />
           <Route path="/dummyUser/Login" element={<DashboardLogin />} />
           <Route path="/dummyUser/Dashboard" element={<Dashboard />} />
           <Route path="/dummyUser/Withdrawals" element={<Withdrawals />} />
@@ -101,7 +101,7 @@ function App() {
           <Route path="/dummyUser/Feedback" element={<Feedback />} />
           <Route path="/dummyUser/Logout" element={<AdminLogout />} />
           <Route path="/dummyUser/user_details" element={<UserDetails />} />
-          {/* <Route path="/rewards" element={<Rewards />} /> */}
+          <Route path="/rewards" element={<Rewards />} />
         </Routes>
         {/* <div className='fixed top-[400px] right-0 p-2 bg-cyan-600 rounded-l-full transform  -translate-y-1/2 flex items-center justify-center'>
           <a href="https://t.me/WindHarvester" className='no-underline text-white cursor-pointer'>
