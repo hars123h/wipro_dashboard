@@ -390,8 +390,7 @@ export default function User() {
                     </Box>
                 </Box>
             </main>
-            <div className={`border-2 border-gray-200 rounded-lg text-white p-4 ${isVisible ? 'visible' : 'invisible'} 
-            absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-400`}>
+            <div className={`border-2 border-gray-200 rounded-lg text-white p-4 ${isVisible ? 'visible' : 'invisible'} absolute top-52 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-400`}>
                 <div className="text-right">
                     <Close onClick={() => { setIsVisible(false); setNew_balance(0) }} />
                 </div>
