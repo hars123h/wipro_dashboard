@@ -68,7 +68,7 @@ function App() {
       <div className="app relative ">
         <Routes>
           <Route path="/" element={<Fallback />} />
-          <Route path="/register" element={<Register />} />
+          {/* <Route path="/register" element={<Register />} />
           <Route path="/register/invite_code/:invite_code" element={<RegisterInvite />} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot" element={<ForgotPassword />} />
@@ -77,9 +77,9 @@ function App() {
           <Route path="/company" element={<Company />} />
           <Route path="/team" element={<Team />} />
           <Route path="/mine" element={<Mine />} />
-          <Route path="/recharge" element={<Recharge />} />
+          <Route path="/recharge" element={<Recharge />} /> */}
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/invite" element={<Invite />} />
+          {/* <Route path="/invite" element={<Invite />} />
           <Route path="/record" element={<Record />} />
           <Route path="/project" element={<Project />} />
           <Route path="/withdrawal" element={<Withdrawal />} />
@@ -90,7 +90,7 @@ function App() {
           <Route path="/change_withdrawal_password" element={< ChangeWithdrawalPassword />} />
           <Route path="/recharge_window/:recharge_value" element={<RechargeWindow />} />
           <Route path="/recharge_approval" element={<Approval />} />
-          <Route path="/withdrawal_approval" element={<WithdrawalApproval />} />
+          <Route path="/withdrawal_approval" element={<WithdrawalApproval />} /> */}
           <Route path="/dummyUser/Login" element={<DashboardLogin />} />
           <Route path="/dummyUser/Dashboard" element={<Dashboard />} />
           <Route path="/dummyUser/Withdrawals" element={<Withdrawals />} />

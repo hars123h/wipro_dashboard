@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 
 const Fallback = () => {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    useEffect(()=>{
-        navigate('/register');
-    },[]);
+  useEffect(() => {
+    navigate('/dashboard');
+  }, []);
 
 
   return (
