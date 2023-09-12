@@ -107,7 +107,7 @@ export default function AmountSetup() {
     const getAmountValues = async () => {
         const details = await axios.get(`${BASE_URL}/amounts`)
         if (details) {
-            setAmounts(details.data.data);
+            setAmounts(details.data);
         } else {
             toast('Not able to fetch Amounts!');
         }
