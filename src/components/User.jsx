@@ -335,7 +335,7 @@ export default function User() {
                             <TableBody>
                                 {rows.reverse().map((row, row_index) => (
                                     <TableRow
-                                        key={row.name}
+                                        key={row_index}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
                                         <TableCell component="th" scope="row">
