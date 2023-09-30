@@ -1,5 +1,5 @@
 // const BASE_URL = "http://localhost:5000/api";
-const BASE_URL = "https://infosys-backend.onrender.com/api";
+const BASE_URL = "https://lobster-app-5gysu.ondigitalocean.app/api";
 // const BASE_URL = "https://whale-app-rqcs6.ondigitalocean.app/api";
 // const BASE_URL = "https://wipro-backend.onrender.com/api";
 // const BASE_URL = "https://king-prawn-app-uzbcq.ondigitalocean.app/api";
