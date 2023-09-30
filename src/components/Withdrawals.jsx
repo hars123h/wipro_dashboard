@@ -118,7 +118,7 @@ export default function Withdrawals() {
 
     useEffect(() => {
         if(localStorage.getItem('name')===null) {
-            navigate('/dummyUser/Login');
+            navigate('/lull/Login');
         }
         getWithdrawals_list();
     }, []);

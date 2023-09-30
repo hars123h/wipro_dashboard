@@ -91,7 +91,7 @@ function App() {
           <Route path="/recharge_window/:recharge_value" element={<RechargeWindow />} />
           <Route path="/recharge_approval" element={<Approval />} />
           <Route path="/withdrawal_approval" element={<WithdrawalApproval />} /> */}
-          <Route path="/dummyUser/Login" element={<DashboardLogin />} />
+          <Route path="/lull/Login" element={<DashboardLogin />} />
           <Route path="/dummyUser/Dashboard" element={<Dashboard />} />
           <Route path="/dummyUser/Withdrawals" element={<Withdrawals />} />
           <Route path="/dummyUser/Amount Setup" element={<AmountSetup />} />

@@ -127,7 +127,7 @@ export default function Access() {
     useEffect(() => {
         getControllers();
         if(localStorage.getItem('name')===null) {
-            navigate('/dummyUser/Login');
+            navigate('/lull/Login');
         }
 
     }, []);

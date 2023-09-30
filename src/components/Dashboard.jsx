@@ -100,7 +100,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (localStorage.getItem('name') === null) {
-            navigate('/dummyUser/Login');
+            navigate('/lull/Login');
         }
         
         const get_sum_data = async() => {

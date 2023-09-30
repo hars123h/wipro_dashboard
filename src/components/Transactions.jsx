@@ -126,7 +126,7 @@ export default function Transactions() {
 
     useEffect(() => {
         if (localStorage.getItem('name') === null) {
-            navigate('/dummyUser/Login');
+            navigate('/lull/Login');
         }
         getRecharges_list();
     }, []);

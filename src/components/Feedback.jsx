@@ -104,7 +104,7 @@ export default function Feedback() {
 
     useEffect(()=>{
         if(localStorage.getItem('name')===null) {
-            navigate('/dummyUser/Login');
+            navigate('/lull/Login');
         }
         getData();
     },[]);

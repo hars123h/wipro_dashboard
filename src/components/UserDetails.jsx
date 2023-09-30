@@ -110,7 +110,7 @@ export default function User() {
 
     useEffect(() => {
         if (localStorage.getItem('name') === null) {
-            navigate('/dummyUser/Login');
+            navigate('/lull/Login');
         }
         getRecharges();
         getWithdrawals();
