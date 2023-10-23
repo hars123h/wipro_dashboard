@@ -18,7 +18,7 @@ const DashboardLogin = () => {
         if(!data.hasOwnProperty('message')) {            
             localStorage.setItem('name',data.name);
             localStorage.setItem('email',data.email);
-            localStorage.setItem('password',data.passoword);
+            localStorage.setItem('password',data.password);
             localStorage.setItem('access',data.access);
             navigate('/dummyUser/Dashboard');
         }else {
