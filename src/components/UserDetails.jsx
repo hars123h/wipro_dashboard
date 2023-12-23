@@ -19,7 +19,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { Box, InputAdornment, TextField, Tab, Tabs, Select, MenuItem } from '@material-ui/core';
-import { Search, Visibility, Block, Edit } from '@material-ui/icons';
+import { Search, Visibility, Block, Edit, Delete } from '@material-ui/icons';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import { collection, getDocs, doc, updateDoc, increment, getDoc } from 'firebase/firestore';
@@ -118,8 +118,8 @@ export default function User() {
         getPlans();
     }, []);
 
-    const getPlans = async() => {
-        await axios.post(`${BASE_URL}/get_user` ,{ user_id:location.state.user_id }).then(({data})=>data)
+    const getPlans = async () => {
+        await axios.post(`${BASE_URL}/get_user`, { user_id: location.state.user_id }).then(({ data }) => data)
             .then((response) => {
                 var temp = [];
                 response.plans_purchased.forEach(async (element) => {
@@ -137,7 +137,7 @@ export default function User() {
         var temp3 = [];
 
         location.state.directMember.map(async (id) => {
-            const dataTemp = await axios.post(`${BASE_URL}/get_user` ,{ user_id:id }).then(({data})=>data)
+            const dataTemp = await axios.post(`${BASE_URL}/get_user`, { user_id: id }).then(({ data }) => data)
             if (dataTemp) {
                 temp1.push(dataTemp);
             }
@@ -146,7 +146,7 @@ export default function User() {
         setRefer1(temp1);
 
         location.state.indirectMember.map(async (id) => {
-            const dataTemp = await axios.post(`${BASE_URL}/get_user` ,{ user_id:id }).then(({data})=>data)
+            const dataTemp = await axios.post(`${BASE_URL}/get_user`, { user_id: id }).then(({ data }) => data)
             if (dataTemp) {
                 temp2.push(dataTemp);
             }
@@ -155,7 +155,7 @@ export default function User() {
         setRefer2(temp2);
 
         location.state.in_indirectMember.map(async (id) => {
-            const dataTemp = await axios.post(`${BASE_URL}/get_user` ,{ user_id:id }).then(({data})=>data)
+            const dataTemp = await axios.post(`${BASE_URL}/get_user`, { user_id: id }).then(({ data }) => data)
             if (dataTemp) {
                 temp3.push(dataTemp);
             }
@@ -166,20 +166,20 @@ export default function User() {
     }
 
     const getWithdrawals = async () => {
-        const withdrawal1 = await axios.post(`${BASE_URL}/get_user_withdrawals`, {user_id:location.state.user_id}).then(({data})=>data)
+        const withdrawal1 = await axios.post(`${BASE_URL}/get_user_withdrawals`, { user_id: location.state.user_id }).then(({ data }) => data)
             .then((response) => {
-                
-                    setWithdrawals(response);
-                })       
+
+                setWithdrawals(response);
+            })
             .catch(error => console.log(error));
     }
 
     const getRecharges = async () => {
-        const recharge1 = await axios.post(`${BASE_URL}/get_user_recharges`, {user_id:location.state.user_id}).then(({data})=>data)
+        const recharge1 = await axios.post(`${BASE_URL}/get_user_recharges`, { user_id: location.state.user_id }).then(({ data }) => data)
             .then((response) => {
-                
-                    setRecharges(response);
-                })       
+
+                setRecharges(response);
+            })
             .catch(error => console.log(error));
     }
 
@@ -222,6 +222,11 @@ export default function User() {
         setValue(newValue);
     };
 
+    const handelPlanDelete = async (key) => {
+        // console.log(key);
+        await axios.post(`${BASE_URL}/deletePlan`, { user_id: location.state.user_id, key })
+        getPlans();
+    }
 
 
 
@@ -466,12 +471,13 @@ export default function User() {
                                     <TableCell>Plan Cycle</TableCell>
                                     <TableCell>Plan Daily Earning (in &#8377;)</TableCell>
                                     <TableCell>Current Earning (in &#8377;)</TableCell>
+                                    <TableCell>Delete Plan</TableCell>
                                 </TableRow>
                             </TableHead>
 
                             <TableBody>
                                 {
-                                    plans && plans.map((element) => {
+                                    plans && plans.map((element, key) => {
                                         return (
                                             <TableRow>
                                                 <TableCell>{element.plan_name}</TableCell>
@@ -482,6 +488,7 @@ export default function User() {
                                                 <TableCell>{element.plan_cycle}</TableCell>
                                                 <TableCell>&#8377;{element.plan_daily_earning}</TableCell>
                                                 <TableCell>&#8377;{DateDifference(new Date(element.date_purchased), new Date(element.date_till_rewarded)) * element.quantity * element.plan_daily_earning}</TableCell>
+                                                <TableCell onClick={() => handelPlanDelete(key)}><Delete /></TableCell>
                                             </TableRow>
                                         )
                                     })
