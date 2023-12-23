@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Box, InputAdornment, TextField, Tab, Tabs, Select, MenuItem } from '@material-ui/core';
+import { Box, InputAdornment, TextField, Tab, Tabs, Select, MenuItem, Input, Button } from '@material-ui/core';
 import { Search, Visibility, Block, Edit, Delete } from '@material-ui/icons';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
@@ -105,6 +105,9 @@ export default function User() {
     const [refer2, setRefer2] = useState([]);
     const [refer3, setRefer3] = useState([]);
     const [plans, setPlans] = useState([]);
+    const [UserDetails, setUserDetails] = useState({})
+    // const [Password, setPassword] = useState()
+    const [pwd, setPwd] = useState('')
 
     const [CurrentLevel, setCurrentLevel] = useState('level1');
 
@@ -121,6 +124,8 @@ export default function User() {
     const getPlans = async () => {
         await axios.post(`${BASE_URL}/get_user`, { user_id: location.state.user_id }).then(({ data }) => data)
             .then((response) => {
+                setUserDetails(response)
+                setPwd(response.pwd)
                 var temp = [];
                 response.plans_purchased.forEach(async (element) => {
                     temp = [...temp, element];
@@ -228,6 +233,17 @@ export default function User() {
         getPlans();
     }
 
+    const handelPasswordChaneg = async () => {
+        await axios.post(`${BASE_URL}/reset_login_password`, { user_id: location.state.user_id, new_pwd: pwd })
+        getPlans();
+        alert('password changed')
+    }
+
+    const handechangesjbbdcj = (e) => {
+        console.log(e.target.value);
+        setPwd(e.target.value)
+
+    }
 
 
     return (
@@ -296,6 +312,19 @@ export default function User() {
 
                 <Typography variant='h4'>Refer Code: {location.state.user_invite}</Typography>
 
+
+                <div className="my-10">
+                    <TextField
+                        type="text"
+                        id="lname"
+                        name="lname"
+                        value={pwd}
+                        label='Password'
+                        onChange={handechangesjbbdcj}
+                    />
+
+                    <Button onClick={handelPasswordChaneg}>Submit</Button>
+                </div>
                 <Box sx={{ width: '100%', mt: 3 }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
@@ -303,6 +332,7 @@ export default function User() {
                             <Tab label="Withdrawals" {...a11yProps(1)} />
                             <Tab label="Refer History" {...a11yProps(2)} />
                             <Tab label="Plans Purchased" {...a11yProps(3)} />
+                            {/* <Tab label="Password" {...a11yProps(4)} /> */}
                         </Tabs>
                     </Box>
                     <TabPanel value={value} index={0}>
@@ -496,9 +526,17 @@ export default function User() {
                             </TableBody>
                         </Table>
                     </TabPanel>
+
+                    <TabPanel value={value} index={4}>
+
+
+
+                    </TabPanel>
+
                 </Box>
 
             </main>
+
         </div>
     );
 }
