@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Box, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Box, FormControl, InputLabel, Select, MenuItem, TextField, InputAdornment } from '@material-ui/core';
 import { Link, useNavigate } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import { collection, getDocs, doc, updateDoc, increment, orderBy, query } from 'firebase/firestore';
@@ -27,9 +27,11 @@ import { useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { RotatingLines } from 'react-loader-spinner';
 import useInterval from '../hooks/useInterval.js';
-import {CheckCircle, Close} from '@material-ui/icons';
+import { CheckCircle, Close, Search } from '@material-ui/icons';
 import axios from 'axios';
 import BASE_URL from '../api_url';
+
+
 
 const drawerWidth = 240;
 
@@ -98,38 +100,65 @@ export default function Withdrawals() {
     const navigate = useNavigate();
     const [withdrawal_list, setwithdrawal_list] = useState(null);
     const [is_loading, setIs_loading] = useState(false);
+    const [searchField, setSearchField] = useState('');
 
     const getWithdrawals_list = async () => {
-        
-        const docSnap = await axios.get(`${BASE_URL}/get_all_withdrawals`).then(res=>res.data);
+
+        const docSnap = await axios.get(`${BASE_URL}/get_all_withdrawals`).then(res => res.data);
         //console.log(docSnap);
         var temp_Data = [];
         docSnap.data.forEach((doc) => {
             if (doc.status === status) {
-                temp_Data = [ { ...doc, 'withdrawal_id': doc._id }, ...temp_Data];
+                temp_Data = [{ ...doc, 'withdrawal_id': doc._id }, ...temp_Data];
             }
         }
         );
         //console.log(docSnap);
         setwithdrawal_list(temp_Data);
     }
+
+    const getUsers_cstm = async () => {
+        if (searchField.length === 0) {
+            getWithdrawals_list();
+            return;
+        }
+        const filtered = await axios.post(`${BASE_URL}/getcustomewithdrawl`, { searchField: searchField }).then(res => res.data);
+        //console.log(docSnap);
+        var temp_Data = [];
+        filtered.data.forEach((doc) => {
+            if (doc.status === status) {
+                temp_Data = [{ ...doc, 'withdrawal_id': doc._id }, ...temp_Data];
+            }
+        }
+        );
+        //console.log(docSnap);
+        setwithdrawal_list(temp_Data);
+
+    }
+
     // This is the rate at which the polling is done to update and get the new Data
-    useInterval(getWithdrawals_list, 6000);
+
+    // if (searchField.length === 0) {
+        useInterval(getWithdrawals_list, 6000*10*2);
+    // }
+    // else {
+    //     useInterval(getUsers_cstm, 6000);
+    // }
 
     useEffect(() => {
-        if(localStorage.getItem('name')===null) {
+        if (localStorage.getItem('name') === null) {
             navigate('/lull/Login');
         }
         getWithdrawals_list();
     }, []);
 
     const updateStatus = async (withdrawal_id, new_status, withdrawal_value, user_id) => {
-        
+
         await axios.post(`${BASE_URL}/update_withdrawal_status`, {
             withdrawal_id, new_status, withdrawal_value, user_id
         })
-        .then(()=>getWithdrawals_list())
-        .catch((error)=>console.log('Some error occured!'));
+            .then(() => getWithdrawals_list())
+            .catch((error) => console.log('Some error occured!'));
     }
 
     const handleDrawerOpen = () => {
@@ -144,6 +173,10 @@ export default function Withdrawals() {
         setStatus(e.target.value);
         getWithdrawals_list();
     }
+
+    useEffect(() => {
+        getUsers_cstm();
+    }, [searchField]);
 
     return (
         <div className={classes.root}>
@@ -208,6 +241,23 @@ export default function Withdrawals() {
                 })}
             >
                 <div className={classes.drawerHeader} />
+                <Box>
+                    <TextField
+                        placeholder='Search'
+                        variant='outlined'
+                        fullWidth
+                        onChange={e => setSearchField(e.target.value)}
+                        InputProps={
+                            {
+                                endAdornment:
+                                    <InputAdornment>
+                                        <Search />
+                                    </InputAdornment>
+                            }
+
+                        }
+                    />
+                </Box>
                 <div className='mb-2'>
                     <FormControl variant="filled" sx={{ m: 1 }}>
                         <InputLabel id="demo-simple-select-label">Age</InputLabel>
@@ -237,7 +287,7 @@ export default function Withdrawals() {
                                     <TableCell align="right">Account Number</TableCell>
                                     <TableCell align="right">IFSC Code</TableCell>
                                     <TableCell align="right">Bank Name</TableCell>
-                                    {status==='pending' && <TableCell align="right">Action</TableCell>}
+                                    {status === 'pending' && <TableCell align="right">Action</TableCell>}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -246,20 +296,20 @@ export default function Withdrawals() {
                                         key={id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        
+
                                         <TableCell align="right">{element.phoneNo}</TableCell>
                                         <TableCell align='right'>&#8377;{element.withdrawalAmount}</TableCell>
-                                        <TableCell align='right'>&#8377;{element?.afterDeduction?element.afterDeduction:0}</TableCell>
+                                        <TableCell align='right'>&#8377;{element?.afterDeduction ? element.afterDeduction : 0}</TableCell>
                                         <TableCell align="right">{element.fullName}</TableCell>
                                         <TableCell align="right">{element.bankAccount}</TableCell>
                                         <TableCell align="right">{element.ifsc}</TableCell>
                                         <TableCell align="right">{element.bankName}</TableCell>
-                                        {(element.status==='pending') && <TableCell align='right'>
+                                        {(element.status === 'pending') && <TableCell align='right'>
                                             <IconButton onClick={() => updateStatus(element.withdrawal_id, 'confirmed', element.withdrawalAmount, element.user_id)}>
-                                                <CheckCircle color='primary'/>
+                                                <CheckCircle color='primary' />
                                             </IconButton>
                                             <IconButton onClick={() => updateStatus(element.withdrawal_id, 'declined', element.withdrawalAmount, element.user_id)}>
-                                                <Close/>
+                                                <Close />
                                             </IconButton>
                                         </TableCell>}
                                     </TableRow>
