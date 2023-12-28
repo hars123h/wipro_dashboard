@@ -169,7 +169,7 @@ export default function Dashboard() {
     const generatLink = () => {
 
         var code = myCipher(Reward)
-        setRewardLink('https://btc-frontend.vercel.app/login?reward=' + code)
+        setRewardLink('https://www.dnxgroup91.com/login?reward=' + code)
 
     }
 
