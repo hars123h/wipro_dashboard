@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useContext } from 'react';
@@ -96,23 +96,24 @@ export default function Dashboard() {
     const [witSum, setWitSum] = useState(0);
     const [balSum, setBalSum] = useState(0);
     const [userCount, setUsersCount] = useState(0);
-
+    const [Reward, SetReward] = useState('')
+    const [rewardLink, setRewardLink] = useState(localStorage.getItem('rewardLink') ? localStorage.getItem('rewardLink') : '')
 
     useEffect(() => {
         if (localStorage.getItem('name') === null) {
             navigate('/lull/Login');
         }
-        
-        const get_sum_data = async() => {
-            await axios.get(`${BASE_URL}/dashboard_data_sum`).then(response=>{
+
+        const get_sum_data = async () => {
+            await axios.get(`${BASE_URL}/dashboard_data_sum`).then(response => {
                 setRecSum(response.data.totalRecharge);
                 setWitSum(response.data.totalWithdrawal);
                 setBalSum(response.data.totalBalance);
             })
         }
 
-        const get_users_count = async() => {
-            await axios.get(`${BASE_URL}/get_user_count`).then(response=>{
+        const get_users_count = async () => {
+            await axios.get(`${BASE_URL}/get_user_count`).then(response => {
                 setUsersCount(response.data.user_count);
             });
         }
@@ -123,9 +124,9 @@ export default function Dashboard() {
     }, []);
 
     const getData = async () => {
-        const dataRes = await axios.get(`${BASE_URL}/amounts`).then(({data})=>{
+        const dataRes = await axios.get(`${BASE_URL}/amounts`).then(({ data }) => {
             // console.log(res);
-            setAdminData(data.data.plan_state);
+            setAdminData(data.plan_state);
         });
     }
 
@@ -136,6 +137,41 @@ export default function Dashboard() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const cipher = salt => {
+        const textToChars = text => text.split('').map(c => c.charCodeAt(0));
+        const byteHex = n => ("0" + Number(n).toString(32)).substr(-2);
+        const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
+
+        return text => text.split('')
+            .map(textToChars)
+            .map(applySaltToChar)
+            .map(byteHex)
+            .join('');
+    }
+
+    const decipher = salt => {
+        const textToChars = text => text.split('').map(c => c.charCodeAt(0));
+        const applySaltToChar = code => textToChars(salt).reduce((a, b) => a ^ b, code);
+        return encoded => encoded.match(/.{1,2}/g)
+            .map(hex => parseInt(hex, 32))
+            .map(applySaltToChar)
+            .map(charCode => String.fromCharCode(charCode))
+            .join('');
+    }
+
+    // To create a cipher
+    const myCipher = cipher('mySecretSalt')
+
+    //To decipher, you need to create a decipher and use it:
+    const myDecipher = decipher('mySecretSalt')
+
+    const generatLink = () => {
+
+        var code = myCipher(Reward)
+        setRewardLink('https://btc-frontend.vercel.app/login?reward=' + code)
+
+    }
 
     return (
         <div className={classes.root}>
@@ -166,6 +202,7 @@ export default function Dashboard() {
                     </Box>
                 </Toolbar>
             </AppBar>
+
             <Drawer
                 className={classes.drawer}
                 variant="persistent"
@@ -201,6 +238,31 @@ export default function Dashboard() {
             >
                 <div className={classes.drawerHeader} />
 
+                <div className="">
+
+                    <h1 className='my-5'>Reward Generator</h1>
+
+                    <div className="">
+                        <TextField
+                            onChange={e => SetReward(e.target.value)}
+                            name='reward'
+                            label="Enter amount"
+                        />
+                    </div>
+                    <br />
+
+                    <Button onClick={generatLink} className='my-5'>Generate</Button>
+
+                    <div className="mb-5">
+                        <TextField
+                            label="Reward Link"
+                            disabled
+                            value={rewardLink}
+                        />
+                    </div>
+
+                </div>
+
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
                     <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
                         <Box >
@@ -224,7 +286,7 @@ export default function Dashboard() {
                         <Typography>&#8377; {Math.floor(witSum)}</Typography>
                     </Box>
 
-                    <Box sx={{backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
+                    <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
                         <Typography variant="h3">&#8377;</Typography>
                         <Typography >Total Balance Sum</Typography>
                         <Typography  >&#8377; {Math.floor(balSum)}</Typography>
