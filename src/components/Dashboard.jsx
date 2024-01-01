@@ -25,6 +25,10 @@ import { useContext } from 'react';
 import { AmountContext } from '../App.js';
 import axios from 'axios';
 import BASE_URL from '../api_url.js';
+import referralCodeGenerator from 'referral-code-generator';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import { toast } from 'react-toastify';
+
 
 const drawerWidth = 240;
 
@@ -166,10 +170,16 @@ export default function Dashboard() {
     //To decipher, you need to create a decipher and use it:
     const myDecipher = decipher('mySecretSalt')
 
-    const generatLink = () => {
+
+
+    const generatLink = async () => {
+
+        const rewardCode = referralCodeGenerator.alpha('lowercase', 6)
 
         var code = myCipher(Reward)
-        setRewardLink('https://www.dnxgroup91.com/login?reward=' + code)
+        setRewardLink(`https://www.dnxgroup91.com/login?reward=${code}&rewardCode=${rewardCode}`)
+        
+        await axios.post(`${BASE_URL}/promocode`, { rewardCode })
 
     }
 
@@ -260,6 +270,13 @@ export default function Dashboard() {
                             value={rewardLink}
                         />
                     </div>
+
+
+                    <CopyToClipboard text={rewardLink} onCopy={() => toast('Link copied')}>
+                        <Button className='my-5'>
+                            Copy Link
+                        </Button>
+                    </CopyToClipboard>
 
                 </div>
 
