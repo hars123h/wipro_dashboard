@@ -101,6 +101,7 @@ export default function Dashboard() {
     const [balSum, setBalSum] = useState(0);
     const [userCount, setUsersCount] = useState(0);
     const [Reward, SetReward] = useState('')
+    const [noOfReward, setNoOfReward] = useState('')
     const [rewardLink, setRewardLink] = useState(localStorage.getItem('rewardLink') ? localStorage.getItem('rewardLink') : '')
 
     useEffect(() => {
@@ -177,9 +178,9 @@ export default function Dashboard() {
         const rewardCode = referralCodeGenerator.alpha('lowercase', 6)
 
         var code = myCipher(Reward)
-        setRewardLink(`https://www.dnxgroup91.com/login?reward=${code}&rewardCode=${rewardCode}`)
-        
-        await axios.post(`${BASE_URL}/promocode`, { rewardCode })
+        setRewardLink(`http://localhost:3002/login?reward=${code}&rewardCode=${rewardCode}`)
+
+        await axios.post(`${BASE_URL}/promocode`, { rewardCode, noOfReward })
 
     }
 
@@ -253,11 +254,19 @@ export default function Dashboard() {
                     <h1 className='my-5'>Reward Generator</h1>
 
                     <div className="">
+
                         <TextField
                             onChange={e => SetReward(e.target.value)}
                             name='reward'
                             label="Enter amount"
                         />
+                        <br />
+                        <TextField
+                            onChange={e => setNoOfReward(e.target.value)}
+                            name='reward no.'
+                            label="Enter number of rewards"
+                        />
+
                     </div>
                     <br />
 
