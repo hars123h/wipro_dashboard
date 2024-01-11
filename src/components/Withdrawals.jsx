@@ -317,10 +317,10 @@ export default function Withdrawals() {
                                         <TableCell align="right">{element.ifsc}</TableCell>
                                         <TableCell align="right">{element.bankName}</TableCell>
                                         {(element.status === 'pending') && <TableCell align='right'>
-                                            <IconButton onClick={() => updateStatus(element.withdrawal_id, 'confirmed', element.withdrawalAmount, element.user_id)}>
+                                            <IconButton onClick={() => updateStatus(element._id, 'confirmed', element.withdrawalAmount, element.user_id)}>
                                                 <CheckCircle color='primary' />
                                             </IconButton>
-                                            <IconButton onClick={() => updateStatus(element.withdrawal_id, 'declined', element.withdrawalAmount, element.user_id)}>
+                                            <IconButton onClick={() => updateStatus(element._id, 'declined', element.withdrawalAmount, element.user_id)}>
                                                 <Close />
                                             </IconButton>
                                         </TableCell>}
