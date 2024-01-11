@@ -104,17 +104,19 @@ export default function Withdrawals() {
 
     const getWithdrawals_list = async () => {
 
+        setwithdrawal_list([])
+
         const docSnap = await axios.get(`${BASE_URL}/get_all_withdrawals`).then(res => res.data);
         //console.log(docSnap);
-        var temp_Data = [];
-        docSnap.data.forEach((doc) => {
-            if (doc.status === status) {
-                temp_Data = [{ ...doc, 'withdrawal_id': doc._id }, ...temp_Data];
-            }
-        }
-        );
-        //console.log(docSnap);
-        setwithdrawal_list(temp_Data);
+        // var temp_Data = [];
+        // docSnap.data.forEach((doc) => {
+        //     if (doc.status === status) {
+        //         temp_Data = [{ ...doc, 'withdrawal_id': doc._id }, ...temp_Data];
+        //     }
+        // }
+        // );
+        // console.log(docSnap.data);
+        setwithdrawal_list(docSnap.data?.filter(e => e.status === status));
     }
 
     const getUsers_cstm = async () => {
@@ -122,24 +124,26 @@ export default function Withdrawals() {
             getWithdrawals_list();
             return;
         }
+        setwithdrawal_list([])
         const filtered = await axios.post(`${BASE_URL}/getcustomewithdrawl`, { searchField: searchField }).then(res => res.data);
         //console.log(docSnap);
-        var temp_Data = [];
-        filtered.data.forEach((doc) => {
-            if (doc.status === status) {
-                temp_Data = [{ ...doc, 'withdrawal_id': doc._id }, ...temp_Data];
-            }
-        }
-        );
+        // var temp_Data = [];
+        // filtered.data.forEach((doc) => {
+        //     if (doc.status === status) {
+        //         temp_Data = [{ ...doc, 'withdrawal_id': doc._id }, ...temp_Data];
+        //     }
+        // }
+        // );
         //console.log(docSnap);
-        setwithdrawal_list(temp_Data);
+        // console.log(filtered);
+        setwithdrawal_list(filtered.data?.filter(e => e.status === status));
 
     }
 
     // This is the rate at which the polling is done to update and get the new Data
 
     // if (searchField.length === 0) {
-        useInterval(getWithdrawals_list, 6000*10*2);
+    useInterval(getWithdrawals_list, 6000 * 10 * 2);
     // }
     // else {
     //     useInterval(getUsers_cstm, 6000);
@@ -171,12 +175,20 @@ export default function Withdrawals() {
 
     const handleChange = (e) => {
         setStatus(e.target.value);
-        getWithdrawals_list();
+        // getUsers_cstm()
     }
 
     useEffect(() => {
         getUsers_cstm();
     }, [searchField]);
+
+    useEffect(() => {
+        // getWithdrawals_list();
+        getUsers_cstm();
+    }, [status, setStatus])
+
+
+    // console.log(status, withdrawal_list);
 
     return (
         <div className={classes.root}>
