@@ -330,6 +330,7 @@ export default function Dashboard() {
                 </div>
 
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+
                     <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
                         <Box >
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-14">
@@ -338,6 +339,12 @@ export default function Dashboard() {
                         </Box>
                         <Typography >Total Users Count</Typography>
                         <Typography>{userCount}</Typography>
+                    </Box>
+
+                    <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
+                        <Typography variant="h3">&#8377;</Typography>
+                        <Typography >Total Balance Sum</Typography>
+                        <Typography  >&#8377; {Math.floor(balSum)}</Typography>
                     </Box>
 
                     <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
@@ -370,11 +377,6 @@ export default function Dashboard() {
                         <Typography>&#8377; {Math.floor(Number(todaywithdrawl))}</Typography>
                     </Box>
 
-                    <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
-                        <Typography variant="h3">&#8377;</Typography>
-                        <Typography >Total Balance Sum</Typography>
-                        <Typography  >&#8377; {Math.floor(balSum)}</Typography>
-                    </Box>
                 </Box>
 
                 <Box sx={{ m: 2, p: 2 }} className="rounded-md shadow-xl border border-gray-200">
