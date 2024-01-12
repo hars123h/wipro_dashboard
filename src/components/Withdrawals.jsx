@@ -150,8 +150,8 @@ export default function Withdrawals() {
     // }
 
     useEffect(() => {
-        if (localStorage.getItem('name') === null) {
-            navigate('/lull/Login');
+        if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
+            navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
         }
         getWithdrawals_list();
     }, []);

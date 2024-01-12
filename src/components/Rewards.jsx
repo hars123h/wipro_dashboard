@@ -20,6 +20,12 @@ const Rewards = () => {
     const [isloading, setIsloading] = useState(false);
     const navigate = useNavigate();
 
+    useEffect(()=>{
+        if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
+            navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
+        }
+    },[]);
+
     const site_url = 'https://www.windharvester44.online/register/invite_code/' + localStorage.getItem('user_invite');
 
     const toaster = (text) => {

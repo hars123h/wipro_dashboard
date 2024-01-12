@@ -105,8 +105,8 @@ export default function Dashboard() {
     const [rewardLink, setRewardLink] = useState(localStorage.getItem('rewardLink') ? localStorage.getItem('rewardLink') : '')
 
     useEffect(() => {
-        if (localStorage.getItem('name') === null) {
-            navigate('/lull/Login');
+        if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
+            navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
         }
 
         const get_sum_data = async () => {

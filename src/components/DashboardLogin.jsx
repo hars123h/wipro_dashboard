@@ -14,12 +14,9 @@ const DashboardLogin = () => {
 
     const handleSubmit = async() => {
         const {data} = await axios.post(`${BASE_URL}/admin_login`, {'email':email, 'password':password});
-        console.log(data);
-        if(!data.hasOwnProperty('message')) {            
-            localStorage.setItem('name',data.name);
-            localStorage.setItem('email',data.email);
-            localStorage.setItem('password',data.password);
-            localStorage.setItem('access',data.access);
+        // console.log(data);
+        if(!data.hasOwnProperty('message')) {
+            localStorage.setItem('_id',data._id);
             navigate('/dummyUser/Dashboard');
         }else {
             toast('Invalid Email/Password!');
