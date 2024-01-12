@@ -31,6 +31,7 @@ import { useState } from 'react';
 import DateDifference from '../utility/DateDifference.js';
 import axios from 'axios';
 import BASE_URL from '../api_url.js';
+import { toast } from 'react-toastify';
 
 
 const drawerWidth = 240;
@@ -108,6 +109,8 @@ export default function User() {
     const [UserDetails, setUserDetails] = useState({})
     // const [Password, setPassword] = useState()
     const [pwd, setPwd] = useState('')
+    const [balance, setBalance] = useState('')
+
 
     const [CurrentLevel, setCurrentLevel] = useState('level1');
 
@@ -126,6 +129,7 @@ export default function User() {
             .then((response) => {
                 setUserDetails(response)
                 setPwd(response.pwd)
+                setBalance(response.balance)
                 var temp = [];
                 response.plans_purchased.forEach(async (element) => {
                     temp = [...temp, element];
@@ -245,6 +249,21 @@ export default function User() {
 
     }
 
+    const updateBalance = async () => {
+
+        if (balance >= 0) {
+            await axios.post(`${BASE_URL}/update_balance`, {
+                new_balance: balance,
+                user_id: location.state.user_id
+            })
+                .then((responses) => {
+                    toast('Balance Updated Successfully!');
+                })
+                .catch((err) => toast('Something went wrong', err))
+        }
+
+    }
+
 
     return (
         <div className={classes.root}>
@@ -325,6 +344,20 @@ export default function User() {
 
                     <Button onClick={handelPasswordChaneg}>Submit</Button>
                 </div>
+
+                <div className="my-10">
+                    <TextField
+                        type="number"
+                        id="balance"
+                        name="balance"
+                        value={balance}
+                        label='balance'
+                        onChange={(e) => setBalance(e.target.value)}
+                    />
+
+                    <Button onClick={updateBalance}>Submit</Button>
+                </div>
+
                 <Box sx={{ width: '100%', mt: 3 }}>
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
