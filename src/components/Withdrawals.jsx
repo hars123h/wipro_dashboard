@@ -303,7 +303,7 @@ export default function Withdrawals() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {withdrawal_list && withdrawal_list.map((element, id) => (
+                                {withdrawal_list && withdrawal_list?.reverse()?.map((element, id) => (
                                     <TableRow
                                         key={id}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

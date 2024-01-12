@@ -391,7 +391,7 @@ export default function User() {
                                                 <TableCell>{element.ifsc}</TableCell>
                                                 <TableCell><span className='font-bold'>{String(element.status).toUpperCase()}</span></TableCell>
                                                 <TableCell>&#8377; {element.withdrawalAmount}</TableCell>
-                                                <TableCell>{new Date(element.time.seconds * 1000).toDateString()}</TableCell>
+                                                <TableCell>{new Date(element.time).toDateString()}</TableCell>
                                             </TableRow>
                                         )
                                     })
