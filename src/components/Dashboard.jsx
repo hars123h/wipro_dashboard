@@ -18,7 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
+import { Box, Button, Input, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useContext } from 'react';
@@ -103,6 +103,11 @@ export default function Dashboard() {
     const [Reward, SetReward] = useState('')
     const [noOfReward, setNoOfReward] = useState('')
     const [rewardLink, setRewardLink] = useState(localStorage.getItem('rewardLink') ? localStorage.getItem('rewardLink') : '')
+    const date = new Date()
+    const [withdrawlDate, setWithdrawlDate] = useState(`${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`)
+    const [todaywithdrawl, setTodaywithdrawl] = useState(0)
+    const [rechargeDate, setRechargeDate] = useState(`${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`)
+    const [todayRecharge, setTodayRecharge] = useState(0)
 
     useEffect(() => {
         if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
@@ -183,6 +188,41 @@ export default function Dashboard() {
         await axios.post(`${BASE_URL}/promocode`, { rewardCode, noOfReward })
 
     }
+
+    const getcustomWithdrawl = async (date, type) => {
+
+        const { data } = await axios.post(`${BASE_URL}/getFilteredWithdrawl`, { date, type })
+
+        console.log(data);
+
+        if (data.todaywithdrawl.length === 0) {
+            if (type === 'widthdrawl') {
+                setTodaywithdrawl(0)
+            }
+            else {
+                setTodayRecharge(0)
+            }
+        }
+        else {
+            if (type === 'widthdrawl') {
+                setTodaywithdrawl(data.todaywithdrawl[0].total)
+            }
+            else {
+                setTodayRecharge(data.todaywithdrawl[0].total)
+            }
+        }
+
+    }
+
+    useEffect(() => {
+        getcustomWithdrawl(withdrawlDate, 'widthdrawl')
+    }, [setWithdrawlDate, withdrawlDate])
+
+    useEffect(() => {
+        getcustomWithdrawl(rechargeDate, 'recharge')
+    }, [setRechargeDate, rechargeDate])
+
+
 
     return (
         <div className={classes.root}>
@@ -307,9 +347,27 @@ export default function Dashboard() {
                     </Box>
 
                     <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
+                        <div className="flex items-center justify-between">
+                            <Typography variant="h3">&#8377;</Typography>
+                            <Input type="date" value={rechargeDate} onChange={e => setRechargeDate(e.target.value)} />
+                        </div>
+                        <Typography >Today Recharge Amount</Typography>
+                        <Typography>&#8377; {Math.floor(Number(todayRecharge))}</Typography>
+                    </Box>
+
+                    <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
                         <Typography variant="h3">&#8377;</Typography>
                         <Typography >Total Withdrawal Amount</Typography>
                         <Typography>&#8377; {Math.floor(witSum)}</Typography>
+                    </Box>
+
+                    <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
+                        <div className="flex items-center justify-between">
+                            <Typography variant="h3">&#8377;</Typography>
+                            <Input type="date" value={withdrawlDate} onChange={e => setWithdrawlDate(e.target.value)} />
+                        </div>
+                        <Typography >Today Withdrawal Amount</Typography>
+                        <Typography>&#8377; {Math.floor(Number(todaywithdrawl))}</Typography>
                     </Box>
 
                     <Box sx={{ backgroundColor: '#e5e7eb', padding: "20px", borderRadius: '5px', display: 'inline', width: '24%' }} className="shadow-lg">
