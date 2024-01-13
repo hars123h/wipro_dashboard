@@ -7,7 +7,9 @@ const AdminLogout = () => {
     const navigate = useNavigate();
     useEffect(()=>{
       
-        signout()
+        signout(() => {
+          navigate("/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login")
+        })
     })
 
   return (
