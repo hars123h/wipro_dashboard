@@ -545,7 +545,7 @@ export default function User() {
                                             <TableRow>
                                                 <TableCell>{element.plan_name}</TableCell>
                                                 <TableCell>{element.plan_type}</TableCell>
-                                                <TableCell>{element.date_purchased}</TableCell>
+                                                <TableCell>{new Date(element.date_purchased).toDateString()}</TableCell>
                                                 <TableCell>{element.quantity}</TableCell>
                                                 <TableCell>&#8377;{element.plan_amount}</TableCell>
                                                 <TableCell>{element.plan_cycle}</TableCell>
