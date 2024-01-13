@@ -392,7 +392,7 @@ export default function User() {
                                                 <TableCell>{element.refno}</TableCell>
                                                 <TableCell><span className='font-bold'>{String(element.status).toUpperCase()}</span></TableCell>
                                                 <TableCell>&#8377;{element.recharge_value}</TableCell>
-                                                <TableCell>{new Date(element.time.seconds * 1000).toDateString()}</TableCell>
+                                                <TableCell>{new Date(element.time).toDateString()}</TableCell>
                                             </TableRow>
                                         )
                                     })
@@ -545,7 +545,7 @@ export default function User() {
                                             <TableRow>
                                                 <TableCell>{element.plan_name}</TableCell>
                                                 <TableCell>{element.plan_type}</TableCell>
-                                                <TableCell>{element.date_purchased}</TableCell>
+                                                <TableCell>{new Date(element.date_purchased).toDateString()}</TableCell>
                                                 <TableCell>{element.quantity}</TableCell>
                                                 <TableCell>&#8377;{element.plan_amount}</TableCell>
                                                 <TableCell>{element.plan_cycle}</TableCell>
