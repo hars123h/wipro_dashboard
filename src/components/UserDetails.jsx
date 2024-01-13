@@ -115,9 +115,9 @@ export default function User() {
     const [CurrentLevel, setCurrentLevel] = useState('level1');
 
     useEffect(() => {
-        if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
-            navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
-        }
+        // if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
+        //     navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
+        // }
         getRecharges();
         getWithdrawals();
         getReferDetails();

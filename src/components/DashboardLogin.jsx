@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import BASE_URL from '../api_url';
 import axios from 'axios';
+import { authenticate } from '../helper/auth';
 
 const DashboardLogin = () => {
 
@@ -13,14 +14,34 @@ const DashboardLogin = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async() => {
-        const {data} = await axios.post(`${BASE_URL}/admin_login`, {'email':email, 'password':password});
+        // const data = await axios.post(`${BASE_URL}/admin_login`, {'email':email, 'password':password})
+        const data = await axios({
+            method: "POST",
+            url: `${BASE_URL}/admin_login`,
+            data: { email, password },
+          })
+          .then((response) => {
+            console.log("SIGNIN SUCCESS", response);
+            // save the response (user, token) localstorage/cookie
+            authenticate(response, () => {
+              toast.success("Login Successfully!");
+               navigate("/dashboard")
+              // redirect("/profile");
+            });
+          })
+          .catch((error) => {
+            console.log("SIGNIN ERROR", error.response.data.message);
+            toast.error(error.response.data.message);
+          });
+
+        console.log("Data", data);
         // console.log(data);
-        if(!data.hasOwnProperty('message')) {
-            localStorage.setItem('_id',data._id);
-            navigate('/dummyUser/Dashboard');
-        }else {
-            toast('Invalid Email/Password!');
-        }
+        // if(!data.hasOwnProperty('message')) {
+        //     localStorage.setItem('_id',data._id);
+        //     navigate('/dummyUser/Dashboard');
+        // }else {
+        //     toast('Invalid Email/Password!');
+        // }
     }
 
     return (

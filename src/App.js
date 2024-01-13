@@ -1,68 +1,74 @@
-import './App.css';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
-import Register from './components/Register';
-import Login from './components/Login';
-import ForgotPassword from './components/ForgotPassword';
-import Home from './components/Home'
-import Company from './components/Company';
-import Team from './components/Team';
-import Mine from './components/Mine';
-import Recharge from './components/Recharge';
-import Invite from './components/Invite';
-import Record from './components/Record';
-import Project from './components/Project';
-import { Routes, Route } from 'react-router-dom';
-import Dashboard from './components/Dashboard';
-import Fallback from './components/Fallback';
-import Withdrawal from './components/Withdrawal';
-import Settings from './components/Settings';
-import Bank from './components/Bank';
-import ChangeLoginPassword from './components/ChangeLoginPassword';
-import ChangeWithdrawalPassword from './components/ChangeWithdrawalPassword';
-import RechargeWindow from './components/RechargeWindow';
-import Approval from './components/Approval';
-import WithdrawalApproval from './components/WithdrawalApproval';
-import RegisterInvite from './components/RegisterInvite';
-import Withdrawals from './components/Withdrawals';
-import User from './components/User';
-import Transactions from './components/Transactions';
-import Access from './components/Access';
-import Feedback from './components/Feedback';
-import AmountSetup from './components/AmountSetup';
-import DashboardLogin from './components/DashboardLogin';
-import AdminLogout from './components/AdminLogout';
-import ClientFeedback from './components/ClientFeedback';
-import UserDetails from './components/UserDetails';
-import { createContext, useState, useLayoutEffect } from 'react';
-import axios from 'axios';
-import BASE_URL from './api_url';
-import ShorPlans from './components/ShortPlans';
-import Rewards from './components/Rewards';
-
+import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import ForgotPassword from "./components/ForgotPassword";
+import Home from "./components/Home";
+import Company from "./components/Company";
+import Team from "./components/Team";
+import Mine from "./components/Mine";
+import Recharge from "./components/Recharge";
+import Invite from "./components/Invite";
+import Record from "./components/Record";
+import Project from "./components/Project";
+import { Routes, Route, Navigate } from "react-router-dom";
+import Dashboard from "./components/Dashboard";
+import Fallback from "./components/Fallback";
+import Withdrawal from "./components/Withdrawal";
+import Settings from "./components/Settings";
+import Bank from "./components/Bank";
+import ChangeLoginPassword from "./components/ChangeLoginPassword";
+import ChangeWithdrawalPassword from "./components/ChangeWithdrawalPassword";
+import RechargeWindow from "./components/RechargeWindow";
+import Approval from "./components/Approval";
+import WithdrawalApproval from "./components/WithdrawalApproval";
+import RegisterInvite from "./components/RegisterInvite";
+import Withdrawals from "./components/Withdrawals";
+import User from "./components/User";
+import Transactions from "./components/Transactions";
+import Access from "./components/Access";
+import Feedback from "./components/Feedback";
+import AmountSetup from "./components/AmountSetup";
+import DashboardLogin from "./components/DashboardLogin";
+import AdminLogout from "./components/AdminLogout";
+import ClientFeedback from "./components/ClientFeedback";
+import UserDetails from "./components/UserDetails";
+import { createContext, useState, useLayoutEffect } from "react";
+import axios from "axios";
+import BASE_URL from "./api_url";
+import ShorPlans from "./components/ShortPlans";
+import Rewards from "./components/Rewards";
+import { isAuth } from "./helper/auth";
 
 export const AmountContext = createContext();
 
 function App() {
-
   const [amounts, setAmounsts] = useState({});
 
   useLayoutEffect(() => {
     getData();
-  }, [])
+  }, []);
 
   const getData = async () => {
-
     //console.log('hello');
-    const dataRes = await axios.get(`${BASE_URL}/amounts`).then(({ data }) => data);
+    const dataRes = await axios
+      .get(`${BASE_URL}/amounts`)
+      .then(({ data }) => data);
     //console.log(dataRes);
     if (dataRes) {
       //console.log(dataRes.data());
       setAmounsts(dataRes.data);
     }
-
+  };
+  function PrivateRoute({ children }) {
+    const auth = isAuth();
+    return auth ? (
+      <>{children}</>
+    ) : (
+      <Navigate to="/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login" />
+    );
   }
-
   return (
     <AmountContext.Provider value={amounts}>
       <div className="app relative ">
@@ -78,7 +84,15 @@ function App() {
           <Route path="/team" element={<Team />} />
           <Route path="/mine" element={<Mine />} />
           <Route path="/recharge" element={<Recharge />} /> */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
           {/* <Route path="/invite" element={<Invite />} />
           <Route path="/record" element={<Record />} />
           <Route path="/project" element={<Project />} />
@@ -91,17 +105,83 @@ function App() {
           <Route path="/recharge_window/:recharge_value" element={<RechargeWindow />} />
           <Route path="/recharge_approval" element={<Approval />} />
           <Route path="/withdrawal_approval" element={<WithdrawalApproval />} /> */}
-          <Route path="/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login" element={<DashboardLogin />} />
-          <Route path="/dummyUser/Dashboard" element={<Dashboard />} />
-          <Route path="/dummyUser/Withdrawals" element={<Withdrawals />} />
-          <Route path="/dummyUser/Amount Setup" element={<AmountSetup />} />
-          <Route path="/dummyUser/User" element={<User />} />
-          <Route path="/dummyUser/Transactions" element={<Transactions />} />
-          <Route path="/dummyUser/Access" element={<Access />} />
-          <Route path="/dummyUser/Feedback" element={<Feedback />} />
+          <Route
+            path="/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login"
+            element={<DashboardLogin />}
+          />
+          <Route
+            path="/dummyUser/Dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dummyUser/Withdrawals"
+            element={
+              <PrivateRoute>
+                <Withdrawals />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dummyUser/Amount Setup"
+            element={
+              <PrivateRoute>
+                <AmountSetup />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dummyUser/User"
+            element={
+              <PrivateRoute>
+                <User />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dummyUser/Transactions"
+            element={
+              <PrivateRoute>
+                <Transactions />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dummyUser/Access"
+            element={
+              <PrivateRoute>
+                <Access />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dummyUser/Feedback"
+            element={
+              <PrivateRoute>
+                <Feedback />
+              </PrivateRoute>
+            }
+          />
           <Route path="/dummyUser/Logout" element={<AdminLogout />} />
-          <Route path="/dummyUser/user_details" element={<UserDetails />} />
-          <Route path="/rewards" element={<Rewards />} />
+          <Route
+            path="/dummyUser/user_details"
+            element={
+              <PrivateRoute>
+                <UserDetails />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/rewards"
+            element={
+              <PrivateRoute>
+                <Rewards />
+              </PrivateRoute>
+            }
+          />
         </Routes>
         {/* <div className='fixed top-[400px] right-0 p-2 bg-cyan-600 rounded-l-full transform  -translate-y-1/2 flex items-center justify-center'>
           <a href="https://t.me/WindHarvester" className='no-underline text-white cursor-pointer'>
@@ -109,7 +189,6 @@ function App() {
           </a>
         </div> */}
         <ToastContainer />
-
       </div>
     </AmountContext.Provider>
   );

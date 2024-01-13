@@ -30,6 +30,7 @@ import useInterval from '../hooks/useInterval.js';
 import { CheckCircle, Close, Search } from '@material-ui/icons';
 import axios from 'axios';
 import BASE_URL from '../api_url';
+import { getCookie } from '../helper/auth.js';
 
 
 
@@ -103,10 +104,15 @@ export default function Withdrawals() {
     const [searchField, setSearchField] = useState('');
 
     const getWithdrawals_list = async () => {
+        const token = getCookie("token")
 
         setwithdrawal_list([])
 
-        const docSnap = await axios.get(`${BASE_URL}/get_all_withdrawals`).then(res => res.data);
+        const docSnap = await axios.get(`${BASE_URL}/get_all_withdrawals`,{
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+        }).then(res => res.data);
         //console.log(docSnap);
         // var temp_Data = [];
         // docSnap.data.forEach((doc) => {
@@ -150,9 +156,9 @@ export default function Withdrawals() {
     // }
 
     useEffect(() => {
-        if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
-            navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
-        }
+        // if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
+        //     navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
+        // }
         getWithdrawals_list();
     }, []);
 

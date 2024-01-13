@@ -36,6 +36,7 @@ import Status from './Status';
 import axios from 'axios';
 import BASE_URL from '../api_url.js';
 import { toast } from 'react-toastify';
+import { getCookie } from '../helper/auth.js';
 
 
 
@@ -105,12 +106,17 @@ export default function Transactions() {
     const amountDetails = useContext(AmountContext);
     const [loading, setLoading] = useState(false);
     const [value, setValue] = useState('pending');
+    const token = getCookie("token");
 
     const [recharge_list, setRecharge_list] = useState(null);
     const navigate = useNavigate();
 
     const getRecharges_list = async () => {
-        const docSnap = await axios.get(`${BASE_URL}/get_all_recharges`).then((res)=>res.data);
+        const docSnap = await axios.get(`${BASE_URL}/get_all_recharges`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+              }
+        }).then((res)=>res.data);
         var temp_Data = [];
         docSnap.data.forEach((doc) => {
             if (doc.status === value) {
@@ -125,9 +131,9 @@ export default function Transactions() {
     useInterval(getRecharges_list, 20000);
 
     useEffect(() => {
-        if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
-            navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
-        }
+        // if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
+        //     navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
+        // }
         getRecharges_list();
     }, []);
 

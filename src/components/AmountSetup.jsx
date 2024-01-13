@@ -114,9 +114,7 @@ export default function AmountSetup() {
     }
 
     useLayoutEffect(() => {
-        if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
-            navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
-        }
+      
         getAmountValues();
     }, []);
 

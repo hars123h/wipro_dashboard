@@ -110,9 +110,7 @@ export default function Dashboard() {
     const [todayRecharge, setTodayRecharge] = useState(0)
 
     useEffect(() => {
-        if (localStorage.getItem('_id') !== "65a0e005d1cdbc931cce57f7") {
-            navigate('/dfggdgdgsfsfsdgsdgsdgdgsdgsdgdfgdfgdf/Login');
-        }
+       
 
         const get_sum_data = async () => {
             await axios.get(`${BASE_URL}/dashboard_data_sum`).then(response => {
