@@ -317,7 +317,7 @@ export default function Withdrawals() {
 
                                         <TableCell align="right">{element.phoneNo}</TableCell>
                                         <TableCell align='right'>&#8377;{element.withdrawalAmount}</TableCell>
-                                        <TableCell align='right'>&#8377;{element?.afterDeduction ? element.afterDeduction : 0}</TableCell>
+                                        <TableCell align='right'>&#8377;{element.withdrawalAmount*0.85}</TableCell>
                                         <TableCell align="right">{element.fullName}</TableCell>
                                         <TableCell align="right">{element.bankAccount}</TableCell>
                                         <TableCell align="right">{element.ifsc}</TableCell>
