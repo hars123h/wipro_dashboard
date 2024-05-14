@@ -1,7 +1,7 @@
 //const BASE_URL = "https://shark-app-cd3em.ondigitalocean.app/api";
 // const BASE_URL = "https://seal-app-sliev.ondigitalocean.app/api";
 // const BASE_URL = "http://localhost:8000/api";
-const BASE_URL = "https://flydhl67.site/api";
+const BASE_URL = "https://plankton-app-48pr7.ondigitalocean.app/api";
 // const BASE_URL = "https://king-prawn-app-uzbcq.ondigitalocean.app/api";
 export default BASE_URL;
 
