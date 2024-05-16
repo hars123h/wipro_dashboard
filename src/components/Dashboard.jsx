@@ -181,7 +181,7 @@ export default function Dashboard() {
         const rewardCode = referralCodeGenerator.alpha('lowercase', 6)
 
         var code = myCipher(Reward)
-        setRewardLink(`https://flydhl67.site/login?reward=${code}&rewardCode=${rewardCode}`)
+        setRewardLink(`https://micro-intels79.site/login?reward=${code}&rewardCode=${rewardCode}`)
 
         await axios.post(`${BASE_URL}/promocode`, { rewardCode, noOfReward })
 
